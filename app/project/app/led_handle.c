@@ -18,8 +18,10 @@
 #define OFF 0
 
 static uint8_t buffer_disp_set[3] = {0};
-static uint8_t buffer_disp_temp[3] = {0};
-static uint8_t buffer_disp_air[3] = {0};
+uint8_t buffer_disp_temp[3] = {0};
+uint8_t buffer_disp_air[3] = {0};
+
+void display_temp_air_handle(void);
 
 static void (*buff[10])() = {zero, one, two, three, four, five, six, seven, eight, nine};
 
@@ -325,10 +327,10 @@ void Display_Handle(uint8_t in_temp_num, uint8_t in_air_num)
 
 			sFWDS01_t.system_parameter.last_set_temp = sFWDS01_t.system_parameter.set_temp;
 			sFWDS01_t.system_parameter.last_set_temp_f_display = sFWDS01_t.system_parameter.set_temp_f_display;
+			buffer_disp_temp[0] = show_temp / 100;
+			buffer_disp_temp[1] = (show_temp / 10) % 10;
+			buffer_disp_temp[2] = show_temp % 10;
 		}
-		buffer_disp_temp[0] = show_temp / 100;
-		buffer_disp_temp[1] = (show_temp / 10) % 10;
-		buffer_disp_temp[2] = show_temp % 10;
 	}
 	break;
 	case DISPLAY_REAL:
@@ -339,11 +341,14 @@ void Display_Handle(uint8_t in_temp_num, uint8_t in_air_num)
 			if (sFWDS01_t.temp_unit == CELSIUS)
 				show_temp = sFWDS01_t.system_parameter.actual_temp;
 			else if (sFWDS01_t.temp_unit == FAHRENHEIT)
+			{
 				show_temp = (sFWDS01_t.system_parameter.actual_temp * 9 / 5) + 32;
+			}
+			buffer_disp_temp[0] = show_temp / 100;
+			buffer_disp_temp[1] = (show_temp / 10) % 10;
+			buffer_disp_temp[2] = show_temp % 10;
 		}
-		buffer_disp_temp[0] = show_temp / 100;
-		buffer_disp_temp[1] = (show_temp / 10) % 10;
-		buffer_disp_temp[2] = show_temp % 10;
+		
 	}
 	break;
 	case DISPLAY_ERR:
@@ -362,9 +367,14 @@ void Display_Handle(uint8_t in_temp_num, uint8_t in_air_num)
 	break;
 	case DISPLAY_SAVE_CH:
 	{
-		buffer_disp_temp[0] = 10;
-		buffer_disp_temp[1] = 13;
-		buffer_disp_temp[2] = sFWDS01_t.general_parameter.ch;
+		if (sFWDS01_t.temp_unit == CELSIUS)
+			show_temp = (uint16_t)sFWDS01_t.system_parameter.set_temp;
+		else if (sFWDS01_t.temp_unit == FAHRENHEIT) // 华氏度
+			show_temp = (uint16_t)sFWDS01_t.system_parameter.set_temp_f_display;
+
+		buffer_disp_temp[0] = show_temp / 100;
+		buffer_disp_temp[1] = (show_temp / 10) % 10;
+		buffer_disp_temp[2] = show_temp % 10;
 	}
 	break;
 	default:
@@ -411,29 +421,71 @@ void Display_Handle(uint8_t in_temp_num, uint8_t in_air_num)
 
 	disp_digit_all();
 
-	if (sFWDS01_t.general_parameter.set_temp_time != 0x00)
-	{
-		sFWDS01_t.general_parameter.set_temp_time--;
-		if (sFWDS01_t.general_parameter.save_ch_flag == false)
-			sFWDS01_t.display_temp_number = DISPLAY_SET;
-		if (sFWDS01_t.general_parameter.set_temp_time <= 0x00)
-		{
-			sFWDS01_t.general_parameter.set_temp_time = 0x00;
-			sFWDS01_t.display_temp_number = DISPLAY_REAL;
-		}
-	}
+	display_temp_air_handle();
 
-	if (sFWDS01_t.general_parameter.set_air_time != 0x00)
+	
+}
+
+
+void display_temp_air_handle(void)
+{
+	static bool first_time = false;
+	/* temp display */
+	if(sFWDS01_t.handle_error_state == HANDLE_OK)
 	{
-		sFWDS01_t.general_parameter.set_air_time--;
-		sFWDS01_t.display_air_number = DISPLAY_SET;
-		if (sFWDS01_t.general_parameter.set_air_time <= 0x00)
+		if (sFWDS01_t.general_parameter.set_temp_time != 0x00)
+		{
+			first_time = false;
+			sFWDS01_t.general_parameter.set_temp_time--;
+			if (sFWDS01_t.general_parameter.save_ch_flag == false)
+				sFWDS01_t.display_temp_number = DISPLAY_SET;
+		}
+		else
+		{
+			if(sFWDS01_t.Work_handle_state != HANDLE_SLEEP)
+			{
+				if(sFWDS01_t.display_lock_state == LOCK)
+				{
+					sFWDS01_t.general_parameter.set_temp_time = 0x00; 
+					if(sFWDS01_t.system_parameter.actual_temp <= (sFWDS01_t.system_parameter.set_temp + 5) && 
+						sFWDS01_t.system_parameter.actual_temp >= (sFWDS01_t.system_parameter.set_temp - 5))
+					{
+							sFWDS01_t.system_parameter.last_set_temp = 0x00;
+							sFWDS01_t.system_parameter.last_set_temp_f_display = 0x00;
+							first_time = true;
+						sFWDS01_t.display_temp_number = DISPLAY_SET;
+					}
+					else
+					{
+						first_time = false;
+						sFWDS01_t.display_temp_number = DISPLAY_REAL;
+					}
+				}
+				else
+				{
+					sFWDS01_t.display_temp_number = DISPLAY_REAL;
+				}
+			}
+			else
+				first_time = false;
+		}
+		
+		/* air display */
+		if (sFWDS01_t.general_parameter.set_air_time != 0x00)
+		{
+			sFWDS01_t.general_parameter.set_air_time--;
+			sFWDS01_t.display_air_number = DISPLAY_SET;
+			
+		}
+		else
 		{
 			sFWDS01_t.general_parameter.set_air_time = 0x00;
 			sFWDS01_t.display_air_number = DISPLAY_SET;
 		}
 	}
 }
+
+
 
 /* 设置界面显示 */
 void dispmenu_pageoption(uint8_t in_number)
@@ -476,7 +528,7 @@ void dispmenu_pageoption(uint8_t in_number)
 	case 3:
 	{
 		TAST[buffer_disp_set[0]]();
-		if (sFWDS01_t.set_interface_number == VISION)
+		if (sFWDS01_t.set_interface_number == SOFTWARE_VERSION || sFWDS01_t.set_interface_number == HARDWARE_VERSION)
 		{
 			gpio_bits_reset(GPIOB, LEDDP_PIN);
 		}
@@ -486,7 +538,7 @@ void dispmenu_pageoption(uint8_t in_number)
 	case 4:
 	{
 		TAST[buffer_disp_set[1]]();
-		if (sFWDS01_t.set_interface_number == VISION)
+		if (sFWDS01_t.set_interface_number == SOFTWARE_VERSION || sFWDS01_t.set_interface_number == HARDWARE_VERSION)
 		{
 			gpio_bits_reset(GPIOB, LEDDP_PIN);
 		}
@@ -533,7 +585,7 @@ void Disp_Set_Handle(uint8_t menu_number)
 		buffer_disp_set[0] = 15; //-
 		buffer_disp_set[2] = 15; //-
 		break;
-	case SPEAK_STATE: // 显示锁定
+	case SPEAK_STATE:  // 声音开关
 		if (sFWDS01_t.speak_state == SPEAKER_OPEN)
 		{
 			buffer_disp_set[0] = 19;
@@ -547,7 +599,7 @@ void Disp_Set_Handle(uint8_t menu_number)
 			buffer_disp_set[2] = 12; // F
 		}
 		break;
-	case DISPLAY_LOCK: // 声音开关
+	case DISPLAY_LOCK:// 显示锁定
 		if (sFWDS01_t.display_lock_state == LOCK)
 		{
 			buffer_disp_set[0] = 19;
@@ -575,10 +627,15 @@ void Disp_Set_Handle(uint8_t menu_number)
 			buffer_disp_set[2] = 12; // F
 		}
 		break;
-	case VISION:
-		buffer_disp_set[0] = VISION_BAI;
-		buffer_disp_set[1] = VISION_SHI;
-		buffer_disp_set[2] = VISION_GE;
+	case SOFTWARE_VERSION:
+		buffer_disp_set[0] = SOFTWARE_VERSION_BAI;
+		buffer_disp_set[1] = SOFTWARE_VERSION_SHI;
+		buffer_disp_set[2] = SOFTWARE_VERSION_GE;
+		break;
+	case HARDWARE_VERSION:
+		buffer_disp_set[0] = HARDWARE_VERSION_BAI;
+		buffer_disp_set[1] = HARDWARE_VERSION_SHI;
+		buffer_disp_set[2] = HARDWARE_VERSION_GE;
 		break;
 	case RESET_RUN:
 		buffer_disp_set[0] = 15;

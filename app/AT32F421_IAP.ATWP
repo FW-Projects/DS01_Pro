@@ -182,9 +182,11 @@
             <Parameters name="Label" value="DG4"/>
         </Signal>
         <Signal SignalName="GPIO_Output" PinName="PF7">
+            <Parameters name="GPIO_Outputlevel" value="GPIO_OUTPUTLEVEL_HIGH"/>
             <Parameters name="Label" value="LED_C"/>
         </Signal>
         <Signal SignalName="GPIO_Output" PinName="PA15">
+            <Parameters name="GPIO_Outputlevel" value="GPIO_OUTPUTLEVEL_HIGH"/>
             <Parameters name="Label" value="LED_F"/>
         </Signal>
         <Signal SignalName="GPIO_Output" PinName="PB3">

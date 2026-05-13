@@ -22,29 +22,23 @@ EC11_AnalyzeResult g_air_ec11_analyze_result;
 /************************** EC11总处理 **************************/
 /**
  * @brief EC11编码器总处理函数
- * @note  依次处理电压EC11、电流EC11的扫描→解析→事件处理
+ * @note  
  */
 void ec11_handle(void)
 {
-	// 电压EC11处理：扫描→解析→事件分发
 
 	EC11_ScanResult temp_scan_result = EC11_Scan(&temp_ec11);
 	g_temp_ec11_analyze_result = EC11_Analyze(&temp_ec11, temp_scan_result);
 	temp_ec11_get_event(g_temp_ec11_analyze_result);
 	temp_ec11_event_handle();
 
-	// 电流EC11处理：扫描→解析→事件分发
 	EC11_ScanResult air_scan_result = EC11_Scan(&air_ec11);
 	g_air_ec11_analyze_result = EC11_Analyze(&air_ec11, air_scan_result);
 	air_ec11_get_event(g_air_ec11_analyze_result);
 	air_ec11_event_handle();
 }
 
-/************************** 电流EC11事件解析 **************************/
-/**
- * @brief 电流EC11事件解析（根据编码器动作设置调节事件）
- * @param state: EC11解析结果（正转/反转/短按/长按等）
- */
+
 void air_ec11_get_event(EC11_AnalyzeResult state)
 {
 	static int disp_vision_time = 0x00;
@@ -76,7 +70,9 @@ void air_ec11_get_event(EC11_AnalyzeResult state)
 			case SLEEP_STATE:
 				g_air_ec11_event = SET_SLEEP_STATE;
 				break;
-			case VISION:
+			case SOFTWARE_VERSION:
+				break;
+			case HARDWARE_VERSION:
 				break;
 			case RESET_RUN:
 				break;
@@ -110,7 +106,9 @@ void air_ec11_get_event(EC11_AnalyzeResult state)
 			case SLEEP_STATE:
 				g_air_ec11_event = SET_SLEEP_STATE;
 				break;
-			case VISION:
+			case SOFTWARE_VERSION:
+				break;
+			case HARDWARE_VERSION:
 				break;
 			case RESET_RUN:
 				break;
@@ -144,7 +142,9 @@ void air_ec11_get_event(EC11_AnalyzeResult state)
 			case SLEEP_STATE:
 				g_air_ec11_event = SET_SLEEP_STATE;
 				break;
-			case VISION:
+			case SOFTWARE_VERSION:
+				break;
+			case HARDWARE_VERSION:
 				break;
 			case RESET_RUN:
 				break;
@@ -178,7 +178,9 @@ void air_ec11_get_event(EC11_AnalyzeResult state)
 			case SLEEP_STATE:
 				g_air_ec11_event = SET_SLEEP_STATE;
 				break;
-			case VISION:
+			case SOFTWARE_VERSION:
+				break;
+			case HARDWARE_VERSION:
 				break;
 			case RESET_RUN:
 				break;
@@ -203,11 +205,7 @@ void air_ec11_get_event(EC11_AnalyzeResult state)
 	}
 }
 
-/************************** 电压EC11事件解析 **************************/
-/**
- * @brief 电压EC11事件解析（根据编码器动作设置调节事件）
- * @param state: EC11解析结果（正转/反转/短按/长按等）
- */
+
 void temp_ec11_get_event(EC11_AnalyzeResult state)
 {
 	static int set_time = SET_TIME;
@@ -218,7 +216,7 @@ void temp_ec11_get_event(EC11_AnalyzeResult state)
 		if (sFWDS01_t.set_flag == true)
 		{
 			sFWDS01_t.set_interface_number++;
-			if (sFWDS01_t.set_interface_number > 7)
+			if (sFWDS01_t.set_interface_number > 8)
 				sFWDS01_t.set_interface_number = 0;
 		}
 		else
@@ -232,7 +230,7 @@ void temp_ec11_get_event(EC11_AnalyzeResult state)
 		{
 			if (sFWDS01_t.set_interface_number == 0)
 			{
-				sFWDS01_t.set_interface_number = 7;
+				sFWDS01_t.set_interface_number = 8;
 			}
 			else
 				sFWDS01_t.set_interface_number--;
@@ -306,7 +304,7 @@ void temp_ec11_get_event(EC11_AnalyzeResult state)
 	}
 	else
 	{
-		if (state != EC11_ANALYZE_NO_ACTION)
+		if (state == EC11_ANALYZE_NO_ACTION)
 		{
 			set_time--;
 			if (set_time < 0)

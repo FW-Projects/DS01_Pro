@@ -9,15 +9,15 @@ void FWDS01_Init(DS01_Handle *FWDS01)
 	/* start the Direct handle init of  */
 	FWDS01->system_parameter.actual_temp = 0,
 	FWDS01->system_parameter.set_temp = 380,
-	FWDS01->system_parameter.set_temp_f_display = 380;
+	FWDS01->system_parameter.set_temp_f_display = 716;
 
 	FWDS01->system_parameter.error_time = 0,
 	FWDS01->system_parameter.cal_data = 0,
 	FWDS01->system_parameter.cal_temp_c_display = 0,
 	FWDS01->system_parameter.cal_temp_f_display = 0,
-	FWDS01->handle_position = NOT_IN_POSSITION,
+	FWDS01->handle_position = IN_POSSITION,
 	FWDS01->handle_error_state = HANDLE_OK,
-	FWDS01->Work_handle_state = HANDLE_WORKING;
+	FWDS01->Work_handle_state = HANDLE_SLEEP;
 
 	memset(FWDS01->system_parameter.temp_buff, 250, CURVE_BUFF_SIZE);
 	memset(FWDS01->system_parameter.air_buff, 250, CURVE_BUFF_SIZE);

@@ -165,7 +165,8 @@ int main(void)
   filter_init(&handle_temp, ADC_CHANNEL_2);
   BSP_UsartInit();
   PID_Init(&handle_pid,800,4,20000, MAX_PWM_OUTPUT);
-
+  gpio_bits_set(GPIOF,GPIO_PINS_7);
+  gpio_bits_set(GPIOA,GPIO_PINS_15);
   /* add user code end 2 */
 
   while(1)
@@ -248,27 +249,42 @@ void beep_task(void)
  */
 void led_task(void)
 {
-	if(sFWDS01_t.set_flag == true)
+	if(sFWDS01_t.init_flag == true)
 	{
-		Disp_Set_Handle(sFWDS01_t.set_interface_number);
+		if(sFWDS01_t.set_flag == true)
+		{
+			Disp_Set_Handle(sFWDS01_t.set_interface_number);
+		}
+		else
+		{
+			Display_Handle(sFWDS01_t.display_temp_number,sFWDS01_t.display_air_number);
+		}
+		
+		if(sFWDS01_t.temp_unit == CELSIUS)
+		{
+			gpio_bits_reset(GPIOF,GPIO_PINS_7);
+			gpio_bits_set(GPIOA,GPIO_PINS_15);
+			
+		}
+		else if(sFWDS01_t.temp_unit == FAHRENHEIT)
+		{
+			gpio_bits_set(GPIOF,GPIO_PINS_7);
+			gpio_bits_reset(GPIOA,GPIO_PINS_15);
+
+		}
 	}
 	else
 	{
-		Display_Handle(sFWDS01_t.display_temp_number,sFWDS01_t.display_air_number);
-	}
-	
-	if(sFWDS01_t.temp_unit == CELSIUS)
-	{
-		gpio_bits_reset(GPIOF,GPIO_PINS_7);
+		buffer_disp_temp[0] = 15;
+		buffer_disp_temp[1] = 15;
+		buffer_disp_temp[2] = 15;
+		buffer_disp_air[0] = 15;
+		buffer_disp_air[1] = 15;
+		buffer_disp_air[2] = 15;
+		disp_digit_all();
+		gpio_bits_set(GPIOF,GPIO_PINS_7);
 		gpio_bits_set(GPIOA,GPIO_PINS_15);
 	}
-	else if(sFWDS01_t.temp_unit == FAHRENHEIT)
-	{
-		gpio_bits_set(GPIOF,GPIO_PINS_7);
-		gpio_bits_reset(GPIOA,GPIO_PINS_15);
-		
-	}
-	
 }
 
 /**

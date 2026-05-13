@@ -35,6 +35,7 @@ static void get_key(void)
         if (key_event[0] == KE_PRESS)
         {
             sFWDS01_t.system_parameter.set_temp = sFWDS01_t.system_parameter.ch1_set_temp;
+			sFWDS01_t.system_parameter.set_temp_f_display = (sFWDS01_t.system_parameter.set_temp * 9 / 5) + 32;
             sFWDS01_t.system_parameter.air_data = sFWDS01_t.system_parameter.ch1_set_air;
             sFWDS01_t.general_parameter.ch = 1;
             sFWDS01_t.display_temp_number = DISPLAY_SET;
@@ -49,6 +50,7 @@ static void get_key(void)
         else if (key_event[1] == KE_PRESS)
         {
             sFWDS01_t.system_parameter.set_temp = sFWDS01_t.system_parameter.ch2_set_temp;
+			sFWDS01_t.system_parameter.set_temp_f_display = (sFWDS01_t.system_parameter.set_temp * 9 / 5) + 32;
             sFWDS01_t.system_parameter.air_data = sFWDS01_t.system_parameter.ch2_set_air;
             sFWDS01_t.general_parameter.ch = 2;
             sFWDS01_t.display_temp_number = DISPLAY_SET;
@@ -63,6 +65,7 @@ static void get_key(void)
         else if (key_event[2] == KE_PRESS)
         {
             sFWDS01_t.system_parameter.set_temp = sFWDS01_t.system_parameter.ch3_set_temp;
+			sFWDS01_t.system_parameter.set_temp_f_display = (sFWDS01_t.system_parameter.set_temp * 9 / 5) + 32;
             sFWDS01_t.system_parameter.air_data = sFWDS01_t.system_parameter.ch3_set_air;
             sFWDS01_t.general_parameter.ch = 3;
             sFWDS01_t.display_temp_number = DISPLAY_SET;

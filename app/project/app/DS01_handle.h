@@ -3,9 +3,12 @@
 #include "at32f421.h"
 #include "stdbool.h"
 
-#define VISION_BAI 1
-#define VISION_SHI 0
-#define VISION_GE 1
+#define SOFTWARE_VERSION_BAI 1
+#define SOFTWARE_VERSION_SHI 0
+#define SOFTWARE_VERSION_GE 2
+#define HARDWARE_VERSION_BAI 1
+#define HARDWARE_VERSION_SHI 0
+#define HARDWARE_VERSION_GE 1
 
 #define CURVE_REFRESH_TIME 0
 #define CURVE_BUFF_SIZE 358
@@ -28,7 +31,7 @@
 
 #define PID_RANGE 100
 
-#define MAX_SET_AIR 100
+#define MAX_SET_AIR 200
 #define MIN_SET_AIR 5
 
 #define MAX_ACTUAL_AIR 534
@@ -45,7 +48,7 @@
 
 #define SET_SHOW_TIMES 1000
 
-#define SET_TIME 2000;
+#define SET_TIME 10000;
 
 #define LOCK_RANGE 20
 
@@ -123,7 +126,8 @@ typedef enum
 	SPEAK_STATE,
 	DISPLAY_LOCK,
 	SLEEP_STATE,
-	VISION,
+	SOFTWARE_VERSION,
+	HARDWARE_VERSION,
 	RESET_RUN,
 } set_interface_number_e;
 

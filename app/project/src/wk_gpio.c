@@ -73,10 +73,12 @@ void wk_gpio_config(void)
 
   /* gpio output config */
   gpio_bits_reset(GPIOC, DG1_PIN | SPEAK_PIN);
-  gpio_bits_reset(GPIOA, HOT_K_PIN | DG6_PIN | DG5_PIN | LED_F_PIN);
+  gpio_bits_reset(GPIOA, HOT_K_PIN | DG6_PIN | DG5_PIN);
   gpio_bits_reset(GPIOB, A_PIN | B_PIN | C_PIN | D_PIN | E_PIN | 
                   F_PIN | G_PIN | DP_PIN | DG3_PIN | DG2_PIN);
-  gpio_bits_reset(GPIOF, DG4_PIN | LED_C_PIN);
+  gpio_bits_reset(DG4_GPIO_PORT, DG4_PIN);
+  gpio_bits_set(LED_C_GPIO_PORT, LED_C_PIN);
+  gpio_bits_set(LED_F_GPIO_PORT, LED_F_PIN);
 
   gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_MODERATE;
   gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;

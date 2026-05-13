@@ -28,7 +28,7 @@ void output_handle(void)
 
 	get_handle_position(&sFWDS01_t);
 	get_handle_work_state(&sFWDS01_t);
-	//    get_handle_error_state(&sFWDS01_t);
+	get_handle_error_state(&sFWDS01_t);
 	relay_control(&sFWDS01_t);
 }
 
@@ -259,7 +259,7 @@ void fan_control(DS01_Handle *this)
 			{
 				if (fan_run_flag == false)
 				{
-					tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, 50);
+					tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, 85);
 				}
 			}
 			else
@@ -292,7 +292,7 @@ void fan_control(DS01_Handle *this)
 				if (fan_run_flag == false)
 				{
 					/* open fan output with a half of max set val*/
-					tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.sleep_air_data * 2.26 + 30);
+					tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.sleep_air_data * 0.87 + 81);
 				}
 			}
 			else if (this->system_parameter.actual_temp >= 70 && this->system_parameter.actual_temp < 250)
@@ -301,7 +301,7 @@ void fan_control(DS01_Handle *this)
 				{
 					/* open fan output with actual temp change*/
 					this->system_parameter.sleep_air_data = this->system_parameter.actual_temp * 0.4;
-					tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.sleep_air_data * 2.26 + 30);
+					tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.sleep_air_data * 0.87 + 81);
 				}
 			}
 			else
@@ -326,14 +326,14 @@ void fan_control(DS01_Handle *this)
 			}
 
 			/* open fan output with user set val */
-			tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.air_data * 2.26 + 30);
+			tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.air_data * 0.87 + 81);
 		}
 
 		break;
 
 	case 1:
 		/* open fan output with max set val */
-		tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, MAX_SET_AIR * 2.26 + 30);
+		tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, MAX_SET_AIR * 0.87 + 81);
 
 		if (this->handle_error_state == HANDLE_OK)
 		{
@@ -571,3 +571,6 @@ void pwm_control(DS01_Handle *this)
 		PID_Clear(&handle_pid);
 	}
 }
+
+ 
+

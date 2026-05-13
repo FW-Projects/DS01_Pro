@@ -48,7 +48,8 @@
 #define LEDDP_PIN GPIO_PINS_7
 
 extern uint16_t show_direct_set_temp_time;
-
+extern uint8_t buffer_disp_temp[3];
+extern uint8_t buffer_disp_air[3];
 // ×´Ì¬»ú¶¨Òå
 typedef enum
 {
