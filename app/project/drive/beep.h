@@ -3,12 +3,13 @@
 
 #include <stdio.h>
 #include "at32f421.h"
+
 /* output */
 #define BEEP_PORT             GPIOC
 #define BEEP_PIN              GPIO_PINS_14
 
-#define BEEP_LONG_TIME        100
-#define BEEP_SHORT_TIME       5
+#define BEEP_LONG_TIME        15
+#define BEEP_SHORT_TIME       2
 typedef enum
 {
     BEEP_IDLE,

@@ -46,6 +46,7 @@ typedef enum
     FLASH_START = 0,
     FLASH_HANDLE_DATA,
     FLASH_GENERAL_DATA,
+	FLASH_VER,
     FLASH_FINSH,
 } flash_state_t;
 

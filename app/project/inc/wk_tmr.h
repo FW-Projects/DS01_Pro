@@ -63,6 +63,9 @@ extern "C" {
   /* init tmr3 function. */
   void wk_tmr3_init(void);
 
+  /* init tmr15 function. */
+  void wk_tmr15_init(void);
+
 /* add user code begin exported functions */
 
 /* add user code end exported functions */

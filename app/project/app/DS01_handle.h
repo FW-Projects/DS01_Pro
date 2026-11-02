@@ -13,9 +13,9 @@
 #define CURVE_REFRESH_TIME 0
 #define CURVE_BUFF_SIZE 358
 
-#define RESET_TIME 300
+#define RESET_TIME 2500
 
-#define SAVE_CH_TIME 300
+#define SAVE_CH_TIME 3000
 
 #define RESET_VALUE 255
 
@@ -31,7 +31,7 @@
 
 #define PID_RANGE 100
 
-#define MAX_SET_AIR 200
+#define MAX_SET_AIR 120
 #define MIN_SET_AIR 5
 
 #define MAX_ACTUAL_AIR 534
@@ -40,7 +40,7 @@
 #define MAX_ACTUAL_TEMP 600
 #define MIN_ACTUAL_TEMP 70
 
-#define ERROR_TIME 200
+#define ERROR_TIME 400
 
 #define MAX_PWM_OUTPUT (35000)
 // #define MAX_PWM_OUTPUT (48000-1)
@@ -59,6 +59,7 @@
 #define WAKEN_TIMES 3000
 
 #define POWER_TEMP 50
+
 
 typedef enum
 {
@@ -123,8 +124,8 @@ typedef enum
 	EXIT = 0,
 	TEMP_CAL,
 	TEMP_UNIT,
-	SPEAK_STATE,
 	DISPLAY_LOCK,
+	SPEAK_STATE,
 	SLEEP_STATE,
 	SOFTWARE_VERSION,
 	HARDWARE_VERSION,

@@ -1,5 +1,5 @@
 ./objects/ec11_handle.o: ..\app\ec11_handle.c \
-  D:\keil5.42\perf_counter-CMSIS-Pack\perfc_common.h \
+  D:\Work\ Program\Keil_v5\ARM\Packs\GorgonMeducer\perf_counter\2.5.5\perfc_common.h \
   RTE\_AT32F421_IAP\Pre_Include_Global.h ..\app\ec11_handle.h \
   ..\drive\EncoderEC11.h \
   ..\..\libraries\cmsis\cm4\device_support\at32f421.h \

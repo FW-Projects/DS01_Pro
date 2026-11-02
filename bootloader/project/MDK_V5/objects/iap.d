@@ -2,7 +2,7 @@
 .\objects\iap.o: ..\inc\iap.h
 .\objects\iap.o: ..\..\libraries\cmsis\cm4\device_support\at32f421.h
 .\objects\iap.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\iap.o: D:\Work Program\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+.\objects\iap.o: D:\keil5\Keil MDK 5.34\Keil MDK v5.34\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\iap.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\iap.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\iap.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h

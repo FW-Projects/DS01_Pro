@@ -2,7 +2,7 @@
 .\objects\flash.o: ..\inc\flash.h
 .\objects\flash.o: ..\..\libraries\cmsis\cm4\device_support\at32f421.h
 .\objects\flash.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\flash.o: D:\Work Program\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+.\objects\flash.o: D:\keil5\Keil MDK 5.34\Keil MDK v5.34\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\flash.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\flash.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\flash.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h
@@ -21,5 +21,5 @@
 .\objects\flash.o: ..\..\libraries\drivers\inc\at32f421_misc.h
 .\objects\flash.o: ..\inc\wk_usart.h
 .\objects\flash.o: ..\inc\at32f421_wk_config.h
-.\objects\flash.o: D:\Work Program\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
+.\objects\flash.o: D:\keil5\Keil MDK 5.34\Keil MDK v5.34\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\flash.o: ..\inc\iap.h

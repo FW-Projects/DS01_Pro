@@ -1,6 +1,6 @@
 ./objects/eventrecorder.o: \
-  D:\keil5.42\ARM\CMSIS-View\1.2.0\EventRecorder\Source\EventRecorder.c \
-  D:\keil5.42\perf_counter-CMSIS-Pack\perfc_common.h \
+  D:\Work\ Program\Keil_v5\ARM\Packs\ARM\CMSIS-View\1.2.0\EventRecorder\Source\EventRecorder.c \
+  D:\Work\ Program\Keil_v5\ARM\Packs\GorgonMeducer\perf_counter\2.5.5\perfc_common.h \
   RTE\_AT32F421_IAP\Pre_Include_Global.h \
   RTE\_AT32F421_IAP\RTE_Components.h \
   ..\..\libraries\cmsis\cm4\device_support\at32f421.h \
@@ -20,5 +20,5 @@
   ..\..\libraries\drivers\inc\at32f421_wdt.h \
   ..\..\libraries\drivers\inc\at32f421_misc.h \
   ..\..\libraries\drivers\inc\at32f421_scfg.h \
-  D:\keil5.42\ARM\CMSIS-View\1.2.0\EventRecorder\Include\EventRecorder.h \
+  D:\Work\ Program\Keil_v5\ARM\Packs\ARM\CMSIS-View\1.2.0\EventRecorder\Include\EventRecorder.h \
   RTE\CMSIS-View\EventRecorderConf.h

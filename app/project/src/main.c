@@ -127,7 +127,7 @@ int main(void)
                         DMA1_CHANNEL1_PERIPHERAL_BASE_ADDR, 
                         DMA1_CHANNEL1_MEMORY_BASE_ADDR, 
                         DMA1_CHANNEL1_BUFFER_SIZE);
-  dma_channel_enable(DMA1_CHANNEL1, TRUE);
+  dma_channel_enable(DMA1_CHANNEL1, FALSE);
 
   /* init usart1 function. */
   wk_usart1_init();
@@ -147,6 +147,9 @@ int main(void)
   /* init tmr3 function. */
   wk_tmr3_init();
 
+  /* init tmr15 function. */
+  wk_tmr15_init();
+
   /* add user code begin 2 */
   tmt_init();
   tmt.create(iap_task, IAP_HANDLE_TIME);
@@ -154,7 +157,7 @@ int main(void)
   tmt.create(pc_task, PC_HANDLE_TIME);
   tmt.create(led_task, DISP_HANDLE_TIME);
   tmt.create(ec11_task, EC11_TASK_TIME);
-  tmt.create(beep_task, BEEP_TASK_TIME);
+  tmt.create(beep_task, BEEP_TASK_TIME); 
   tmt.create(work_task, OUTPUT_HANDLE_TIME);
   tmt.create(key_task, KEY_TASK_TIME);
   tmt.create(flash_task, FLASH_TASK_TIME);
@@ -162,7 +165,7 @@ int main(void)
   EventRecorderInitialize(0, 1);
   iap_init();
   FWDS01_Init(&sFWDS01_t);
-  filter_init(&handle_temp, ADC_CHANNEL_2);
+  filter_init(&handle_temp, ADC_CHANNEL_1);
   BSP_UsartInit();
   PID_Init(&handle_pid,800,4,20000, MAX_PWM_OUTPUT);
   gpio_bits_set(GPIOF,GPIO_PINS_7);
@@ -202,7 +205,7 @@ void feed_dog_task(void)
   {
     first_in = true;
     /* if enabled, please feed the dog through wdt_counter_reload() function */
-    // wdt_enable();
+    wdt_enable();
   }
   wdt_counter_reload();
 }
@@ -262,14 +265,14 @@ void led_task(void)
 		
 		if(sFWDS01_t.temp_unit == CELSIUS)
 		{
-			gpio_bits_reset(GPIOF,GPIO_PINS_7);
-			gpio_bits_set(GPIOA,GPIO_PINS_15);
+			gpio_bits_set(GPIOF,GPIO_PINS_7);
+			gpio_bits_reset(GPIOA,GPIO_PINS_15);
 			
 		}
 		else if(sFWDS01_t.temp_unit == FAHRENHEIT)
 		{
-			gpio_bits_set(GPIOF,GPIO_PINS_7);
-			gpio_bits_reset(GPIOA,GPIO_PINS_15);
+			gpio_bits_reset(GPIOF,GPIO_PINS_7);
+			gpio_bits_set(GPIOA,GPIO_PINS_15);
 
 		}
 	}
@@ -294,7 +297,8 @@ void led_task(void)
  */
 void work_task(void)
 {
-	output_handle();
+	if(sFWDS01_t.init_flag == true)
+		output_handle();
 }
 
 /**

@@ -101,16 +101,7 @@ void wk_tmr1_init(void)
 
   tmr_counter_enable(TMR1, TRUE);
 
-  /**
-   * Users need to configure TMR1 interrupt functions according to the actual application.
-   * 1. Call the below function to enable the corresponding TMR1 interrupt.
-   *     --tmr_interrupt_enable(...)
-   * 2. Add the user's interrupt handler code into the below function in the at32f421_int.c file.
-   *     --void TMR1_CH_IRQHandler(void)
-   */
-
   /* add user code begin tmr1_init 2 */
-	tmr_interrupt_enable(TMR1, TMR_C1_INT, TRUE);
   /* add user code end tmr1_init 2 */
 }
 
@@ -184,6 +175,69 @@ void wk_tmr3_init(void)
   /* add user code begin tmr3_init 2 */
 	tmr_interrupt_enable(TMR3,TMR_OVF_INT,TRUE);
   /* add user code end tmr3_init 2 */
+}
+
+/**
+  * @brief  init tmr15 function.
+  * @param  none
+  * @retval none
+  */
+void wk_tmr15_init(void)
+{
+  /* add user code begin tmr15_init 0 */
+
+  /* add user code end tmr15_init 0 */
+
+  gpio_init_type gpio_init_struct;
+  tmr_input_config_type  tmr_input_struct;
+
+  gpio_default_para_init(&gpio_init_struct);
+
+  /* add user code begin tmr15_init 1 */
+
+  /* add user code end tmr15_init 1 */
+
+  /* configure the tmr15 CH1 pin */
+  gpio_pin_mux_config(GPIOA, GPIO_PINS_SOURCE2, GPIO_MUX_0);
+  gpio_init_struct.gpio_pins = GPIO_PINS_2;
+  gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
+  gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
+  gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
+  gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_MODERATE;
+  gpio_init(GPIOA, &gpio_init_struct);
+
+  /* configure counter settings */
+  tmr_cnt_dir_set(TMR15, TMR_COUNT_UP);
+  tmr_clock_source_div_set(TMR15, TMR_CLOCK_DIV1);
+  tmr_repetition_counter_set(TMR15, 0);
+  tmr_period_buffer_enable(TMR15, FALSE);
+  tmr_base_init(TMR15, 59999, 9);
+
+  /* configure primary mode settings */
+  tmr_sub_sync_mode_set(TMR15, FALSE);
+  tmr_primary_mode_select(TMR15, TMR_PRIMARY_SEL_RESET);
+
+  /* configure channel 1 input settings */
+  tmr_input_struct.input_channel_select = TMR_SELECT_CHANNEL_1;
+  tmr_input_struct.input_mapped_select = TMR_CC_CHANNEL_MAPPED_DIRECT;
+  tmr_input_struct.input_polarity_select = TMR_INPUT_BOTH_EDGE;
+  tmr_input_struct.input_filter_value = 0;
+  tmr_input_channel_init(TMR15, &tmr_input_struct, TMR_CHANNEL_INPUT_DIV_1);
+
+  tmr_counter_enable(TMR15, TRUE);
+
+  /**
+   * Users need to configure TMR15 interrupt functions according to the actual application.
+   * 1. Call the below function to enable the corresponding TMR15 interrupt.
+   *     --tmr_interrupt_enable(...)
+   * 2. Add the user's interrupt handler code into the below function in the at32f421_int.c file.
+   *     --void TMR15_GLOBAL_IRQHandler(void)
+   */
+
+  /* add user code begin tmr15_init 2 */
+	tmr_interrupt_enable(TMR15, TMR_C1_INT, TRUE);
+
+  /* add user code end tmr15_init 2 */
 }
 
 /* add user code begin 1 */

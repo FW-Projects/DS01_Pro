@@ -153,110 +153,57 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0AT32F421_64 -FS08000000 -FL00010000 -FP0($$Device:-AT32F421C8T7$Flash\AT32F421_64.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>646</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134251902</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\app\flash_handle.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\AT32F421_IAP\../app/flash_handle.c\646</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>187</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134259544</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\app\output_handle.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\AT32F421_IAP\../app/output_handle.c\187</Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.Work_handle_state</ItemText>
+          <ItemText>sFWDS01_t.system_parameter.actual_temp</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.display_temp_number</ItemText>
+          <ItemText>sFWDS01_t.system_parameter.set_temp</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.display_air_number</ItemText>
+          <ItemText>sFWDS01_t.system_parameter.air_data,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.handle_error_state</ItemText>
+          <ItemText>sFWDS01_t.system_parameter.pwm_out,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.system_parameter.set_temp_f_display</ItemText>
+          <ItemText>sFWDS01_t.set_flag,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.system_parameter.set_temp</ItemText>
+          <ItemText>handle_pid</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.temp_unit</ItemText>
+          <ItemText>sFWDS01_t.system_parameter.cal_data,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.display_lock_state </ItemText>
+          <ItemText>sFWDS01_t.reset_flag,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.sleep_state</ItemText>
+          <ItemText>sbeep</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.system_parameter.actual_temp</ItemText>
-        </Ww>
-        <Ww>
-          <count>10</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.system_parameter.actual_temp_f_display</ItemText>
-        </Ww>
-        <Ww>
-          <count>11</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>set_time</ItemText>
-        </Ww>
-        <Ww>
-          <count>12</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>sFWDS01_t.display_temp_number</ItemText>
-        </Ww>
-        <Ww>
-          <count>13</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>err_type</ItemText>
+          <ItemText>sFWDS01_t.speak_state</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -286,8 +233,24 @@
           <ItemText>show_temp</ItemText>
         </Ww>
       </WatchWindow2>
+      <MemoryWindow1>
+        <Mm>
+          <WinNumber>1</WinNumber>
+          <SubType>0</SubType>
+          <ItemText>0x800F000</ItemText>
+          <AccSizeX>0</AccSizeX>
+        </Mm>
+      </MemoryWindow1>
+      <MemoryWindow2>
+        <Mm>
+          <WinNumber>2</WinNumber>
+          <SubType>0</SubType>
+          <ItemText>0x800F800</ItemText>
+          <AccSizeX>0</AccSizeX>
+        </Mm>
+      </MemoryWindow2>
       <ScvdPack>
-        <Filename>D:\keil5.42\ARM\CMSIS-View\1.2.0\EventRecorder\EventRecorder.scvd</Filename>
+        <Filename>D:\Work Program\Keil_v5\ARM\Packs\ARM\CMSIS-View\1.2.0\EventRecorder\EventRecorder.scvd</Filename>
         <Type>ARM::CMSIS-View@1.2.0</Type>
         <SubType>1</SubType>
       </ScvdPack>
@@ -686,7 +649,7 @@
 
   <Group>
     <GroupName>cmsis</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

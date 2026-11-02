@@ -1,5 +1,5 @@
 ./objects/at32f421_crc.o: ..\..\libraries\drivers\src\at32f421_crc.c \
-  D:\keil5.42\perf_counter-CMSIS-Pack\perfc_common.h \
+  D:\Work\ Program\Keil_v5\ARM\Packs\GorgonMeducer\perf_counter\2.5.5\perfc_common.h \
   RTE\_AT32F421_IAP\Pre_Include_Global.h ..\inc\at32f421_conf.h \
   ..\..\libraries\drivers\inc\at32f421_crm.h \
   ..\..\libraries\cmsis\cm4\device_support\at32f421.h \

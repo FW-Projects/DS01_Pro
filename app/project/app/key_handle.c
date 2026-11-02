@@ -36,6 +36,10 @@ static void get_key(void)
         {
             sFWDS01_t.system_parameter.set_temp = sFWDS01_t.system_parameter.ch1_set_temp;
 			sFWDS01_t.system_parameter.set_temp_f_display = (sFWDS01_t.system_parameter.set_temp * 9 / 5) + 32;
+			if(sFWDS01_t.system_parameter.last_set_temp == sFWDS01_t.system_parameter.set_temp)
+			{
+				sFWDS01_t.system_parameter.last_set_temp = 0x00;
+			}
             sFWDS01_t.system_parameter.air_data = sFWDS01_t.system_parameter.ch1_set_air;
             sFWDS01_t.general_parameter.ch = 1;
             sFWDS01_t.display_temp_number = DISPLAY_SET;
@@ -51,6 +55,10 @@ static void get_key(void)
         {
             sFWDS01_t.system_parameter.set_temp = sFWDS01_t.system_parameter.ch2_set_temp;
 			sFWDS01_t.system_parameter.set_temp_f_display = (sFWDS01_t.system_parameter.set_temp * 9 / 5) + 32;
+			if(sFWDS01_t.system_parameter.last_set_temp == sFWDS01_t.system_parameter.set_temp)
+			{
+				sFWDS01_t.system_parameter.last_set_temp = 0x00;
+			}
             sFWDS01_t.system_parameter.air_data = sFWDS01_t.system_parameter.ch2_set_air;
             sFWDS01_t.general_parameter.ch = 2;
             sFWDS01_t.display_temp_number = DISPLAY_SET;
@@ -66,6 +74,10 @@ static void get_key(void)
         {
             sFWDS01_t.system_parameter.set_temp = sFWDS01_t.system_parameter.ch3_set_temp;
 			sFWDS01_t.system_parameter.set_temp_f_display = (sFWDS01_t.system_parameter.set_temp * 9 / 5) + 32;
+			if(sFWDS01_t.system_parameter.last_set_temp == sFWDS01_t.system_parameter.set_temp)
+			{
+				sFWDS01_t.system_parameter.last_set_temp = 0x00;
+			}
             sFWDS01_t.system_parameter.air_data = sFWDS01_t.system_parameter.ch3_set_air;
             sFWDS01_t.general_parameter.ch = 3;
             sFWDS01_t.display_temp_number = DISPLAY_SET;
@@ -124,6 +136,7 @@ static void get_key(void)
 void key_handle(void)
 {
     get_key();
+
 }
 
 static KEY_VALUE get_ch1()

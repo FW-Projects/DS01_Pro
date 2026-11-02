@@ -13,8 +13,11 @@ void air_ec11_get_event(EC11_AnalyzeResult state_current);
 
 static temp_ec11_event_e g_temp_ec11_event = TEMP_EC11_END_EVENT;
 static air_ec11_event_e g_air_ec11_event = AIR_EC11_END_EVENT;
-
+static int set_time = SET_TIME;
+static int reset_time = RESET_TIME;
+	
 static bool g_temp_long_press_handled = false;
+static bool enter_cal_page = false;
 
 EC11_AnalyzeResult g_temp_ec11_analyze_result;
 EC11_AnalyzeResult g_air_ec11_analyze_result;
@@ -26,7 +29,7 @@ EC11_AnalyzeResult g_air_ec11_analyze_result;
  */
 void ec11_handle(void)
 {
-
+	
 	EC11_ScanResult temp_scan_result = EC11_Scan(&temp_ec11);
 	g_temp_ec11_analyze_result = EC11_Analyze(&temp_ec11, temp_scan_result);
 	temp_ec11_get_event(g_temp_ec11_analyze_result);
@@ -36,6 +39,42 @@ void ec11_handle(void)
 	g_air_ec11_analyze_result = EC11_Analyze(&air_ec11, air_scan_result);
 	air_ec11_get_event(g_air_ec11_analyze_result);
 	air_ec11_event_handle();
+	 
+	if (sFWDS01_t.reset_flag == true)
+		{
+			reset_time--;
+			if (reset_time < 0)
+			{
+				reset_time = RESET_TIME;
+				g_temp_ec11_event = EXIT_SET;
+				
+				sFWDS01_t.general_parameter.set_temp_time = SET_SHOW_TIMES;
+				sFWDS01_t.general_parameter.set_air_time = SET_SHOW_TIMES;
+				
+				sFWDS01_t.reset_flag = false;
+			}
+		}
+	
+	
+	
+	if (sFWDS01_t.set_flag == false)
+	{
+		sFWDS01_t.system_parameter.cal_temp_c_display = sFWDS01_t.system_parameter.set_temp;
+		sFWDS01_t.system_parameter.cal_temp_f_display = sFWDS01_t.system_parameter.set_temp_f_display;
+	}
+	else
+	{
+		if (g_air_ec11_analyze_result == EC11_ANALYZE_NO_ACTION && g_temp_ec11_analyze_result == EC11_ANALYZE_NO_ACTION)
+		{
+			set_time--;
+			if (set_time < 0)
+			{
+				set_time = SET_TIME;
+				g_temp_ec11_event = EXIT_SET;
+			}
+		}
+		
+	}
 }
 
 
@@ -51,6 +90,98 @@ void air_ec11_get_event(EC11_AnalyzeResult state)
 		}
 		else
 		{
+			set_time = SET_TIME;
+			sFWDS01_t.set_interface_number++;
+			if (sFWDS01_t.set_interface_number > 8)
+				sFWDS01_t.set_interface_number = 0;
+		}
+		sbeep.cmd = BEEP_SHORT;
+		break;
+	case EC11_ANALYZE_CCW:
+		if (sFWDS01_t.set_flag == false)
+		{
+			g_air_ec11_event = AIR_REDUCE;
+		}
+		else
+		{
+			set_time = SET_TIME;
+			if (sFWDS01_t.set_interface_number == 0)
+			{
+				sFWDS01_t.set_interface_number = 8;
+			}
+			else
+				sFWDS01_t.set_interface_number--;
+		}
+		sbeep.cmd = BEEP_SHORT;
+		break;
+	case EC11_ANALYZE_FAST_CW:
+		if (sFWDS01_t.set_flag == false)
+		{
+			g_air_ec11_event = AIR_ADD_FIVE;
+		}
+		sbeep.cmd = BEEP_SHORT;
+		break;
+	case EC11_ANALYZE_FAST_CCW:
+		if (sFWDS01_t.set_flag == false)
+		{
+			g_air_ec11_event = AIR_REDUCE_FIVE;
+		}
+		sbeep.cmd = BEEP_SHORT;
+		break;
+	case EC11_ANALYZE_SHORT_CLICK:
+		if (sFWDS01_t.set_interface_number == EXIT)
+		{
+			g_temp_ec11_event = EXIT_SET;
+		}
+		else if (sFWDS01_t.set_interface_number == RESET_RUN)
+		{
+			g_temp_ec11_event = RESET_DS01_VALUE;
+		}
+		sbeep.cmd = BEEP_SHORT;
+		break;
+	case EC11_ANALYZE_DOUBLE_CLICK:
+		break;
+	case EC11_ANALYZE_LONG_PRESS:
+		// 长按进入设置界面
+		if (!g_temp_long_press_handled)
+		{
+			g_temp_long_press_handled = true;
+			if (sFWDS01_t.set_flag == false)
+			{
+				sFWDS01_t.set_flag = true;
+				sFWDS01_t.set_interface_number = EXIT;
+			}
+			else
+			{
+				sFWDS01_t.set_interface_number = EXIT;
+				g_temp_ec11_event = EXIT_SET;
+				set_time = SET_TIME;
+			}
+		}
+		sbeep.cmd = BEEP_LONG;
+		break;
+	case EC11_ANALYZE_LONG_RELEASE:
+		g_temp_long_press_handled = false;
+		break;
+	case EC11_ANALYZE_KEY_CW:
+		break;
+	case EC11_ANALYZE_KEY_CCW:
+		break;
+	default:
+		break;
+	}
+}
+
+
+void temp_ec11_get_event(EC11_AnalyzeResult state)
+{
+
+	switch (state)
+	{
+	case EC11_ANALYZE_CW:
+		if (sFWDS01_t.set_flag == true)
+		{
+			set_time = SET_TIME;
 			switch (sFWDS01_t.set_interface_number)
 			{
 			case EXIT:
@@ -78,15 +209,16 @@ void air_ec11_get_event(EC11_AnalyzeResult state)
 				break;
 			}
 		}
+		else
+		{
+			g_temp_ec11_event = TEMP_ADD;
+		}
 		sbeep.cmd = BEEP_SHORT;
 		break;
 	case EC11_ANALYZE_CCW:
-		if (sFWDS01_t.set_flag == false)
+		if (sFWDS01_t.set_flag == true)
 		{
-			g_air_ec11_event = AIR_REDUCE;
-		}
-		else
-		{
+			set_time = SET_TIME;
 			switch (sFWDS01_t.set_interface_number)
 			{
 			case EXIT:
@@ -114,15 +246,20 @@ void air_ec11_get_event(EC11_AnalyzeResult state)
 				break;
 			}
 		}
+		else
+		{
+			g_temp_ec11_event = TEMP_REDUCE;
+		}
 		sbeep.cmd = BEEP_SHORT;
 		break;
 	case EC11_ANALYZE_FAST_CW:
 		if (sFWDS01_t.set_flag == false)
 		{
-			g_air_ec11_event = AIR_ADD_FIVE;
+			g_temp_ec11_event = TEMP_ADD_FIVE;
 		}
 		else
 		{
+			set_time = SET_TIME;
 			switch (sFWDS01_t.set_interface_number)
 			{
 			case EXIT:
@@ -155,16 +292,17 @@ void air_ec11_get_event(EC11_AnalyzeResult state)
 	case EC11_ANALYZE_FAST_CCW:
 		if (sFWDS01_t.set_flag == false)
 		{
-			g_air_ec11_event = AIR_REDUCE_FIVE;
+			g_temp_ec11_event = TEMP_REDUCE_FIVE;
 		}
 		else
 		{
+			set_time = SET_TIME;
 			switch (sFWDS01_t.set_interface_number)
 			{
 			case EXIT:
 				break;
 			case TEMP_CAL:
-				g_air_ec11_event = TEMP_CAL_ADD_FIVE;
+				g_air_ec11_event = TEMP_CAL_REDUCE;
 				break;
 			case TEMP_UNIT:
 				g_air_ec11_event = SET_UNIT;
@@ -193,99 +331,7 @@ void air_ec11_get_event(EC11_AnalyzeResult state)
 	case EC11_ANALYZE_DOUBLE_CLICK:
 		break;
 	case EC11_ANALYZE_LONG_PRESS:
-		break;
-	case EC11_ANALYZE_LONG_RELEASE:
-		break;
-	case EC11_ANALYZE_KEY_CW:
-		break;
-	case EC11_ANALYZE_KEY_CCW:
-		break;
-	default:
-		break;
-	}
-}
-
-
-void temp_ec11_get_event(EC11_AnalyzeResult state)
-{
-	static int set_time = SET_TIME;
-	static int reset_time = RESET_TIME;
-	switch (state)
-	{
-	case EC11_ANALYZE_CW:
-		if (sFWDS01_t.set_flag == true)
-		{
-			sFWDS01_t.set_interface_number++;
-			if (sFWDS01_t.set_interface_number > 8)
-				sFWDS01_t.set_interface_number = 0;
-		}
-		else
-		{
-			g_temp_ec11_event = TEMP_ADD;
-		}
-		sbeep.cmd = BEEP_SHORT;
-		break;
-	case EC11_ANALYZE_CCW:
-		if (sFWDS01_t.set_flag == true)
-		{
-			if (sFWDS01_t.set_interface_number == 0)
-			{
-				sFWDS01_t.set_interface_number = 8;
-			}
-			else
-				sFWDS01_t.set_interface_number--;
-		}
-		else
-		{
-			g_temp_ec11_event = TEMP_REDUCE;
-		}
-		sbeep.cmd = BEEP_SHORT;
-		break;
-	case EC11_ANALYZE_FAST_CW:
-		if (sFWDS01_t.set_flag == false)
-		{
-			g_temp_ec11_event = TEMP_ADD_FIVE;
-		}
-		sbeep.cmd = BEEP_SHORT;
-		break;
-	case EC11_ANALYZE_FAST_CCW:
-		if (sFWDS01_t.set_flag == false)
-		{
-			g_temp_ec11_event = TEMP_REDUCE_FIVE;
-		}
-		sbeep.cmd = BEEP_SHORT;
-		break;
-	case EC11_ANALYZE_SHORT_CLICK:
-		if (sFWDS01_t.set_interface_number == EXIT)
-		{
-			g_temp_ec11_event = EXIT_SET;
-		}
-		else if (sFWDS01_t.set_interface_number == RESET_RUN)
-		{
-			g_temp_ec11_event = RESET_DS01_VALUE;
-		}
-		sbeep.cmd = BEEP_SHORT;
-		break;
-	case EC11_ANALYZE_DOUBLE_CLICK:
-
-		break;
-	case EC11_ANALYZE_LONG_PRESS:
-		// 长按进入设置界面
-		if (!g_temp_long_press_handled)
-		{
-			g_temp_long_press_handled = true;
-			if (sFWDS01_t.set_flag == false)
-			{
-				sFWDS01_t.set_flag = true;
-				sFWDS01_t.set_interface_number = EXIT;
-			}
-			else
-			{
-				sFWDS01_t.set_interface_number = EXIT;
-				g_temp_ec11_event = EXIT_SET;
-			}
-		}
-		sbeep.cmd = BEEP_LONG;
+		
 		break;
 	case EC11_ANALYZE_LONG_RELEASE:
 		g_temp_long_press_handled = false;
@@ -297,38 +343,13 @@ void temp_ec11_get_event(EC11_AnalyzeResult state)
 	default:
 		break;
 	}
-	if (sFWDS01_t.set_flag == false)
-	{
-		sFWDS01_t.system_parameter.cal_temp_c_display = sFWDS01_t.system_parameter.set_temp;
-		sFWDS01_t.system_parameter.cal_temp_f_display = sFWDS01_t.system_parameter.set_temp_f_display;
-	}
-	else
-	{
-		if (state == EC11_ANALYZE_NO_ACTION)
-		{
-			set_time--;
-			if (set_time < 0)
-			{
-				set_time = SET_TIME;
-				g_temp_ec11_event = EXIT_SET;
-			}
-		}
-		if (sFWDS01_t.reset_flag == true)
-		{
-			reset_time--;
-			if (reset_time < 0)
-			{
-				reset_time = RESET_TIME;
-				g_temp_ec11_event = EXIT_SET;
-				sFWDS01_t.reset_flag = false;
-			}
-		}
-	}
+	
 }
 
 /************************** 电压EC11事件处理（调节电压值） **************************/
 void temp_ec11_event_handle(void)
 {
+	
 	switch (g_temp_ec11_event)
 	{
 	case TEMP_ADD:
@@ -469,9 +490,14 @@ void temp_ec11_event_handle(void)
 		break;
 	case EXIT_SET:
 	{
+		
 		sFWDS01_t.set_flag = false;
 
-		sFWDS01_t.system_parameter.cal_data += sFWDS01_t.system_parameter.set_temp - sFWDS01_t.system_parameter.cal_temp_c_display;
+		if(enter_cal_page)
+		{
+		   sFWDS01_t.system_parameter.cal_data += sFWDS01_t.system_parameter.set_temp - sFWDS01_t.system_parameter.cal_temp_c_display;
+           enter_cal_page = false;
+		}
 
 		if (sFWDS01_t.system_parameter.cal_data >= MAX_CAL_TEMP)
 		{
@@ -489,15 +515,32 @@ void temp_ec11_event_handle(void)
 		sFWDS01_t.reset_flag = true;
 		/* reset value */
 		/* reset handle data */
+	    #if 0
 		sFWDS01_t.system_parameter.set_temp = 380;
 		sFWDS01_t.system_parameter.air_data = 40;
-		sFWDS01_t.system_parameter.cal_data = 0;
-		sFWDS01_t.system_parameter.ch1_set_temp = 380;
-		sFWDS01_t.system_parameter.ch2_set_temp = 400;
-		sFWDS01_t.system_parameter.ch3_set_temp = 420;
-		sFWDS01_t.system_parameter.ch1_set_air = 80;
-		sFWDS01_t.system_parameter.ch2_set_air = 100;
-		sFWDS01_t.system_parameter.ch3_set_air = 120;
+ 		sFWDS01_t.system_parameter.cal_data = 0;
+ 		sFWDS01_t.system_parameter.ch1_set_temp = 380;
+ 		sFWDS01_t.system_parameter.ch2_set_temp = 400;
+ 		sFWDS01_t.system_parameter.ch3_set_temp = 420;
+ 		sFWDS01_t.system_parameter.ch1_set_air = 80;
+ 		sFWDS01_t.system_parameter.ch2_set_air = 100;
+ 		sFWDS01_t.system_parameter.ch3_set_air = 120;
+	    #endif
+
+	   sFWDS01_t.system_parameter.set_temp = 380;
+       sFWDS01_t.system_parameter.air_data = 40;
+	   sFWDS01_t.system_parameter.cal_data = 0;
+       sFWDS01_t.system_parameter.ch1_set_temp = 350;
+       sFWDS01_t.system_parameter.ch1_set_air = 20;
+       sFWDS01_t.system_parameter.ch2_set_temp = 380;
+       sFWDS01_t.system_parameter.ch2_set_air = 30;
+       sFWDS01_t.system_parameter.ch3_set_temp = 400;
+       sFWDS01_t.system_parameter.ch3_set_air = 40;
+	
+	
+	
+	
+	
 		sFWDS01_t.general_parameter.ch = 0;
 		sFWDS01_t.system_parameter.set_sleep_time = 0;
 		/* reset function data */
@@ -511,7 +554,10 @@ void temp_ec11_event_handle(void)
 		sFWDS01_t.sleep_state = SLEEP_OPEN;
 
 		sFWDS01_t.general_parameter.set_temp_time = SET_SHOW_TIMES;
+		 
+		break;
 	case TEMP_EC11_EVENT_END: // 无事件
+		break;
 	default:
 		break;
 	}
@@ -583,6 +629,7 @@ void air_ec11_event_handle(void)
 		sFWDS01_t.general_parameter.ch = 0;
 		break;
 	case TEMP_CAL_ADD:
+		enter_cal_page = true;
 		if (sFWDS01_t.temp_unit == CELSIUS)
 		{
 			if (sFWDS01_t.system_parameter.cal_temp_c_display >= sFWDS01_t.system_parameter.set_temp + MAX_CAL_TEMP)
@@ -611,6 +658,7 @@ void air_ec11_event_handle(void)
 		}
 		break;
 	case TEMP_CAL_ADD_FIVE:
+		enter_cal_page = true;
 		if (sFWDS01_t.temp_unit == CELSIUS)
 		{
 			if (sFWDS01_t.system_parameter.cal_temp_c_display + 10 >= sFWDS01_t.system_parameter.set_temp + MAX_CAL_TEMP)
@@ -639,6 +687,7 @@ void air_ec11_event_handle(void)
 		}
 		break;
 	case TEMP_CAL_REDUCE:
+		enter_cal_page = true;
 		if (sFWDS01_t.temp_unit == CELSIUS)
 		{
 			if (sFWDS01_t.system_parameter.cal_temp_c_display <= sFWDS01_t.system_parameter.set_temp + MIN_CAL_TEMP)
@@ -667,6 +716,7 @@ void air_ec11_event_handle(void)
 		}
 		break;
 	case TEMP_CAL_REDUCE_FIVE:
+		enter_cal_page = true;
 		if (sFWDS01_t.temp_unit == CELSIUS)
 		{
 			if (sFWDS01_t.system_parameter.cal_temp_c_display - 10 <= sFWDS01_t.system_parameter.set_temp + MIN_CAL_TEMP)

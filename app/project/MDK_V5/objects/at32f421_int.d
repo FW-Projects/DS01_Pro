@@ -1,5 +1,5 @@
 ./objects/at32f421_int.o: ..\src\at32f421_int.c \
-  D:\keil5.42\perf_counter-CMSIS-Pack\perfc_common.h \
+  D:\Work\ Program\Keil_v5\ARM\Packs\GorgonMeducer\perf_counter\2.5.5\perfc_common.h \
   RTE\_AT32F421_IAP\Pre_Include_Global.h ..\inc\at32f421_int.h \
   ..\..\libraries\cmsis\cm4\device_support\at32f421.h \
   ..\..\libraries\cmsis\cm4\core_support\core_cm4.h \
@@ -20,4 +20,5 @@
   ..\..\libraries\drivers\inc\at32f421_scfg.h ..\inc\wk_system.h \
   ..\inc\iap.h ..\system\tmt.h ..\app\PC_comm_handle.h \
   ..\drive\at32_Usart.h ..\inc\wk_usart.h ..\inc\at32f421_wk_config.h \
-  ..\app\output_handle.h ..\app\DS01_handle.h ..\drive\adc_filter.h
+  ..\app\output_handle.h ..\app\DS01_handle.h ..\drive\adc_filter.h \
+  ..\app\beep_handle.h ..\drive\beep.h

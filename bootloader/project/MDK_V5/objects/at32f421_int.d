@@ -2,7 +2,7 @@
 .\objects\at32f421_int.o: ..\inc\at32f421_int.h
 .\objects\at32f421_int.o: ..\..\libraries\cmsis\cm4\device_support\at32f421.h
 .\objects\at32f421_int.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\at32f421_int.o: D:\Work Program\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+.\objects\at32f421_int.o: D:\keil5\Keil MDK 5.34\Keil MDK v5.34\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\at32f421_int.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\at32f421_int.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\at32f421_int.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h
@@ -19,7 +19,7 @@
 .\objects\at32f421_int.o: ..\..\libraries\drivers\inc\at32f421_flash.h
 .\objects\at32f421_int.o: ..\..\libraries\drivers\inc\at32f421_crc.h
 .\objects\at32f421_int.o: ..\..\libraries\drivers\inc\at32f421_misc.h
-.\objects\at32f421_int.o: D:\Work Program\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
-.\objects\at32f421_int.o: D:\Work Program\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdbool.h
-.\objects\at32f421_int.o: D:\Work Program\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+.\objects\at32f421_int.o: D:\keil5\Keil MDK 5.34\Keil MDK v5.34\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\at32f421_int.o: D:\keil5\Keil MDK 5.34\Keil MDK v5.34\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\at32f421_int.o: D:\keil5\Keil MDK 5.34\Keil MDK v5.34\ARM\ARMCC\Bin\..\include\string.h
 .\objects\at32f421_int.o: ..\inc\flash.h

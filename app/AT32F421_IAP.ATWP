@@ -10,11 +10,11 @@
     </MCUInfo>
     <ADC1>
         <Mode>
-            <ModeSub name="IN2" value="TRUE"/>
+            <ModeSub name="IN1" value="TRUE"/>
             <ModeSub name="IN-TempSens" value="TRUE"/>
         </Mode>
         <Parameters>
-            <ParametersSub name="Channel_OrdinarySequence_1" value="ADC_CHANNEL_2"/>
+            <ParametersSub name="Channel_OrdinarySequence_1" value="ADC_CHANNEL_1"/>
             <ParametersSub name="SamplingTime_OrdinarySequence_1" value="ADC_SAMPLETIME_239_5"/>
         </Parameters>
     </ADC1>
@@ -69,6 +69,17 @@
             <ParametersSub name="OC1ImmediatelyMode_PWM" value="TRUE"/>
         </Parameters>
     </TMR3>
+    <TMR15>
+        <Mode>
+            <ModeSub name="Channel1 mode" value="Input_direct_mode"/>
+            <ModeSub name="Activated" value="TRUE"/>
+        </Mode>
+        <Parameters>
+            <ParametersSub name="DividerValue" value="9"/>
+            <ParametersSub name="Period" value="59999"/>
+            <ParametersSub name="InputPolarity_CH1" value="TMR_INPUT_BOTH_EDGE"/>
+        </Parameters>
+    </TMR15>
     <USART1>
         <Mode>
             <ModeSub name="Mode" value="Asynchronous"/>
@@ -91,15 +102,17 @@
         </MEMTOMEM0>
     </DMA>
     <NVIC>
+        <ShowType>1</ShowType>
         <SysTick_Handler>1;15;0;0;0</SysTick_Handler>
         <FLASH_IRQHandler>0;0;0;0;0</FLASH_IRQHandler>
         <CRM_IRQHandler>0;0;0;0;0</CRM_IRQHandler>
         <DMA1_Channel1_IRQHandler>0;0;0;0;0</DMA1_Channel1_IRQHandler>
         <ADC1_CMP_IRQHandler>0;0;0;0;0</ADC1_CMP_IRQHandler>
         <TMR1_BRK_OVF_TRG_HALL_IRQHandler>0;0;0;0;0</TMR1_BRK_OVF_TRG_HALL_IRQHandler>
-        <TMR1_CH_IRQHandler>1;0;0;0;0</TMR1_CH_IRQHandler>
-        <TMR3_GLOBAL_IRQHandler>1;0;0;0;0</TMR3_GLOBAL_IRQHandler>
-        <USART1_IRQHandler>1;0;0;0;0</USART1_IRQHandler>
+        <TMR1_CH_IRQHandler>0;0;0;0;0</TMR1_CH_IRQHandler>
+        <TMR3_GLOBAL_IRQHandler>1;5;0;0;0</TMR3_GLOBAL_IRQHandler>
+        <TMR15_GLOBAL_IRQHandler>1;5;0;0;0</TMR15_GLOBAL_IRQHandler>
+        <USART1_IRQHandler>1;5;0;0;0</USART1_IRQHandler>
     </NVIC>
     <GPIO>
         <ShowType>1</ShowType>
@@ -112,10 +125,7 @@
         <Signal SignalName="GPIO_Input" PinName="PC15/LEXT_OUT">
             <Parameters name="Label" value="SLEEP_G"/>
         </Signal>
-        <Signal SignalName="GPIO_Input" PinName="PA1">
-            <Parameters name="Label" value="CHECK_FAN"/>
-        </Signal>
-        <Signal SignalName="ADC1_IN2" PinName="PA2">
+        <Signal SignalName="ADC1_IN1" PinName="PA1">
             <Parameters name="Label" value="AD_HOT"/>
         </Signal>
         <Signal SignalName="GPIO_Input" PinName="PA3">
@@ -241,8 +251,8 @@
         <PinSub pinname="PC15/LEXT_OUT" signalname="GPIO_Input" signaltype="3"/>
         <PinSub pinname="PF0/HEXT_IN" signalname="CRM_HEXT_IN" signaltype="2"/>
         <PinSub pinname="PF1/HEXT_OUT" signalname="CRM_HEXT_OUT" signaltype="2"/>
-        <PinSub pinname="PA1" signalname="GPIO_Input" signaltype="3"/>
-        <PinSub pinname="PA2" signalname="ADC1_IN2" signaltype="3"/>
+        <PinSub pinname="PA1" signalname="ADC1_IN1" signaltype="3"/>
+        <PinSub pinname="PA2" signalname="TMR15_CH1" signaltype="3"/>
         <PinSub pinname="PA3" signalname="GPIO_Input" signaltype="3"/>
         <PinSub pinname="PA4" signalname="GPIO_Input" signaltype="3"/>
         <PinSub pinname="PA5" signalname="GPIO_Input" signaltype="3"/>

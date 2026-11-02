@@ -1,5 +1,5 @@
 ./objects/wk_dma.o: ..\src\wk_dma.c \
-  D:\keil5.42\perf_counter-CMSIS-Pack\perfc_common.h \
+  D:\Work\ Program\Keil_v5\ARM\Packs\GorgonMeducer\perf_counter\2.5.5\perfc_common.h \
   RTE\_AT32F421_IAP\Pre_Include_Global.h ..\inc\wk_dma.h \
   ..\inc\at32f421_wk_config.h \
   ..\..\libraries\cmsis\cm4\device_support\at32f421.h \

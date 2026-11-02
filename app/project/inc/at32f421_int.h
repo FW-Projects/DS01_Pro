@@ -67,8 +67,8 @@ void PendSV_Handler(void);
 
 void SysTick_Handler(void);
 
-void TMR1_CH_IRQHandler(void);
 void TMR3_GLOBAL_IRQHandler(void);
+void TMR15_GLOBAL_IRQHandler(void);
 void USART1_IRQHandler(void);
 /* add user code begin exported functions */
 

@@ -3,11 +3,10 @@
 #include "PID_handle.h"
 #include "adc_filter.h"
 
-// #include "perf_counter.h"
+static float atucl_air = 0x00;
 static void get_handle_position(DS01_Handle *this);
 static void get_handle_work_state(DS01_Handle *this);
 static void get_handle_error_state(DS01_Handle *this);
-// static voidtrol(DS01_Handle *this);
 static void relay_control(DS01_Handle *this);
 static void error_state_recovery(void);
 static void relay_control(DS01_Handle *this);
@@ -31,6 +30,9 @@ void output_handle(void)
 	get_handle_error_state(&sFWDS01_t);
 	relay_control(&sFWDS01_t);
 }
+
+
+ 
 
 static void get_handle_position(DS01_Handle *this)
 {
@@ -142,7 +144,6 @@ static void get_handle_error_state(DS01_Handle *this)
 {
 	static uint8_t get_step = 0;
 	uint8_t err_type = 0; // 0:ÎÞ´íÎó 1:³¬ÎÂ 2:µÍÎÂ 3:·ç»ú´íÎó
-
 	switch (get_step)
 	{
 	// ==================== ×´Ì¬0£ºÕý³£¼à²â ====================
@@ -156,14 +157,15 @@ static void get_handle_error_state(DS01_Handle *this)
 			{
 				err_type = 1; // ³¬ÎÂ´íÎó
 			}
-			else if (this->system_parameter.actual_temp <= MIN_ACTUAL_TEMP)
-			{
-				err_type = 2; // µÍÎÂ´íÎó
-			}
 			else if (this->system_parameter.actual_air < MIN_ACTUAL_AIR)
 			{
 				err_type = 3; // ·ç»ú´íÎó
 			}
+			else if (this->system_parameter.actual_temp <= MIN_ACTUAL_TEMP)
+			{
+				err_type = 2; // µÍÎÂ´íÎó
+			}
+			
 
 			// ============== ÓÐ´íÎó ¡ú ¼ÆÊ± ==============
 			if (err_type != 0)
@@ -210,7 +212,7 @@ static void get_handle_error_state(DS01_Handle *this)
 	// ==================== ×´Ì¬1£º´íÎóËø¶¨£¬µÈ´ý»Ö¸´Ìõ¼þ ====================
 	case 1:
 		// ÊÖ±úÔÚÎ» + ÒÑÐÝÃß ¡ú ´íÎó½â³ý
-		if (this->handle_position == IN_POSSITION && this->sleep_state == SLEEP_OPEN)
+		if (this->handle_position == IN_POSSITION)
 		{
 			this->handle_error_state = HANDLE_OK;
 			this->system_parameter.error_time = 0;
@@ -230,11 +232,12 @@ static void error_state_recovery(void)
 {
 	if (sFWDS01_t.Work_handle_state != HANDLE_SLEEP)
 	{
-		//		sFWDS01_t.general_parameter.set_temp_time = SET_SHOW_TIMES;
-		//		sFWDS01_t.general_parameter.set_air_time = SET_SHOW_TIMES;
+		sFWDS01_t.general_parameter.set_temp_time = SET_SHOW_TIMES;
+		sFWDS01_t.general_parameter.set_air_time = SET_SHOW_TIMES;
 		sFWDS01_t.system_parameter.last_set_temp = 0x00;
 		sFWDS01_t.system_parameter.last_set_temp_f_display = 0x00;
 		sFWDS01_t.system_parameter.last_air_data = 0x00;
+		
 	}
 }
 
@@ -276,7 +279,10 @@ void fan_control(DS01_Handle *this)
 				 this->handle_position == IN_POSSITION &&
 				 this->sleep_state == SLEEP_OPEN)
 		{
-			sFWDS01_t.display_air_number = DISPLAY_REAL;
+			if(sFWDS01_t.general_parameter.set_air_time == 0x00)
+				sFWDS01_t.display_air_number = DISPLAY_REAL;
+			else
+				sFWDS01_t.display_air_number = DISPLAY_SET;
 			/* wait for next time open */
 			if (fan_run_flag)
 			{
@@ -287,12 +293,16 @@ void fan_control(DS01_Handle *this)
 			}
 			if (this->system_parameter.actual_temp >= 250)
 			{
-				this->system_parameter.sleep_air_data = SLEEP_FAN_DATA;
+				 
+				if(this->system_parameter.sleep_air_data != SLEEP_FAN_DATA)
+				{
+				    this->system_parameter.sleep_air_data = SLEEP_FAN_DATA;
+				}
 
 				if (fan_run_flag == false)
 				{
 					/* open fan output with a half of max set val*/
-					tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.sleep_air_data * 0.87 + 81);
+					tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.sleep_air_data * 1.45 + 81);
 				}
 			}
 			else if (this->system_parameter.actual_temp >= 70 && this->system_parameter.actual_temp < 250)
@@ -301,7 +311,7 @@ void fan_control(DS01_Handle *this)
 				{
 					/* open fan output with actual temp change*/
 					this->system_parameter.sleep_air_data = this->system_parameter.actual_temp * 0.4;
-					tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.sleep_air_data * 0.87 + 81);
+					tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.sleep_air_data * 1.45 + 81);
 				}
 			}
 			else
@@ -314,8 +324,11 @@ void fan_control(DS01_Handle *this)
 				  this->handle_position == NOT_IN_POSSITION) ||
 				 this->sleep_state == SLEEP_CLOSE)
 		{
-			sFWDS01_t.display_air_number = DISPLAY_SET;
-			sFWDS01_t.system_parameter.last_air_data = 0x00;
+			if(sFWDS01_t.general_parameter.save_ch_flag == false)
+			{
+				sFWDS01_t.display_air_number = DISPLAY_SET;
+				sFWDS01_t.system_parameter.last_air_data = 0x00;
+			}
 			/* wait for next time open */
 			if (fan_run_flag == false)
 			{
@@ -326,14 +339,14 @@ void fan_control(DS01_Handle *this)
 			}
 
 			/* open fan output with user set val */
-			tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.air_data * 0.87 + 81);
+			tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, this->system_parameter.air_data * 1.45 + 81);
 		}
 
 		break;
 
 	case 1:
 		/* open fan output with max set val */
-		tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, MAX_SET_AIR * 0.87 + 81);
+		tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, MAX_SET_AIR * 1.45 + 81);
 
 		if (this->handle_error_state == HANDLE_OK)
 		{
@@ -441,17 +454,18 @@ static void relay_control(DS01_Handle *this)
 	static uint8_t control_step = 0;
 	static uint16_t open_relay_delay_time = RELAY_OPEN_TIME;
 
-	if (this->Work_handle_state == HANDLE_SLEEP || this->handle_error_state != HANDLE_OK)
+	if ((this->Work_handle_state == HANDLE_SLEEP && this->sleep_state == SLEEP_OPEN) || this->handle_error_state != HANDLE_OK)
 	{
 		/* close relay */
-		gpio_bits_reset(GPIOC, GPIO_PINS_14);
+		gpio_bits_reset(GPIOA, GPIO_PINS_7);
 		/* reset relay open flag */
 		this->relay_open_flag = FALSE;
 		open_relay_delay_time = RELAY_OPEN_TIME;
 	}
 	else if (this->Work_handle_state == HANDLE_WORKING &&
 			 this->handle_error_state == HANDLE_OK &&
-			 this->handle_position == NOT_IN_POSSITION)
+			 this->handle_position == NOT_IN_POSSITION ||
+			this->sleep_state == SLEEP_CLOSE)
 	{
 		/* open relay */
 		gpio_bits_set(GPIOA, GPIO_PINS_7);
@@ -476,6 +490,7 @@ void pwm_control(DS01_Handle *this)
 	static float temp = 0;
 	static float set_temp = 0;
 	static float last_set_temp = 0;
+	static float last_set_wind = 0;
 	static uint16_t delay_time = 0;
 	static bool change_flag = false;
 	//    static uint32_t hight_kd = 35000;
@@ -494,13 +509,27 @@ void pwm_control(DS01_Handle *this)
 
 	set_temp = this->system_parameter.set_temp;
 
+	#if 0
 	if (last_set_temp != set_temp)
 	{
 		handle_pid.SumError = handle_pid.SumError / 2;
 		this->system_parameter.temp_linear_data = linear_correction(set_temp);
 		last_set_temp = set_temp;
 	}
-
+    #endif
+	if (last_set_temp != set_temp || last_set_wind != this->system_parameter.air_data)
+	{
+		 if (set_temp < this->system_parameter.actual_temp &&
+                last_set_temp != set_temp)
+        {
+            handle_pid.SumError = handle_pid.SumError / 2;
+        }
+		
+		handle_pid.SumError = handle_pid.SumError / 2;
+		this->system_parameter.temp_linear_data = linear_correction(set_temp);
+		last_set_temp = set_temp;
+		last_set_wind = this->system_parameter.air_data;
+	}
 	this->system_parameter.actual_temp = move_average_filter(&handle_temp) >> 2;
 	//    temp = this->system_parameter.actual_temp + this->system_parameter.temp_linear_data - this->system_parameter.cal_data;
 	temp = this->system_parameter.actual_temp - this->system_parameter.cal_data;

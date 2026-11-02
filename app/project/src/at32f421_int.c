@@ -37,6 +37,7 @@
 #include "output_handle.h"
 #include "DS01_handle.h"
 #include "adc_filter.h"
+#include "beep_handle.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -62,7 +63,7 @@
 
 /* private variables ---------------------------------------------------------*/
 /* add user code begin private variables */
-__IO float tmr1_ch1_readvalue = 0;
+__IO float tmr15_ch1_readvalue = 0;
 __IO uint16_t adc1_ordinary_value = 0;
 static uint16_t dp_flash_tick = 0;
 /* add user code end private variables */
@@ -89,13 +90,10 @@ static uint16_t dp_flash_tick = 0;
   */
 void NMI_Handler(void)
 {
-  /* add user code begin NonMaskableInt_IRQ 0 */
-
-  /* add user code end NonMaskableInt_IRQ 0 */
-
-  /* add user code begin NonMaskableInt_IRQ 1 */
-
-  /* add user code end NonMaskableInt_IRQ 1 */
+    /* add user code begin NonMaskableInt_IRQ 0 */
+    /* add user code end NonMaskableInt_IRQ 0 */
+    /* add user code begin NonMaskableInt_IRQ 1 */
+    /* add user code end NonMaskableInt_IRQ 1 */
 }
 
 /**
@@ -105,16 +103,15 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
-  /* add user code begin HardFault_IRQ 0 */
+    /* add user code begin HardFault_IRQ 0 */
 
-  /* add user code end HardFault_IRQ 0 */
-  /* go to infinite loop when hard fault exception occurs */
-  while (1)
-  {
-    /* add user code begin W1_HardFault_IRQ 0 */
-
-    /* add user code end W1_HardFault_IRQ 0 */
-  }
+    /* add user code end HardFault_IRQ 0 */
+    /* go to infinite loop when hard fault exception occurs */
+    while (1)
+    {
+        /* add user code begin W1_HardFault_IRQ 0 */
+        /* add user code end W1_HardFault_IRQ 0 */
+    }
 }
 
 /**
@@ -124,16 +121,15 @@ void HardFault_Handler(void)
   */
 void MemManage_Handler(void)
 {
-  /* add user code begin MemoryManagement_IRQ 0 */
+    /* add user code begin MemoryManagement_IRQ 0 */
 
-  /* add user code end MemoryManagement_IRQ 0 */
-  /* go to infinite loop when memory manage exception occurs */
-  while (1)
-  {
-    /* add user code begin W1_MemoryManagement_IRQ 0 */
-
-    /* add user code end W1_MemoryManagement_IRQ 0 */
-  }
+    /* add user code end MemoryManagement_IRQ 0 */
+    /* go to infinite loop when memory manage exception occurs */
+    while (1)
+    {
+        /* add user code begin W1_MemoryManagement_IRQ 0 */
+        /* add user code end W1_MemoryManagement_IRQ 0 */
+    }
 }
 
 /**
@@ -143,16 +139,15 @@ void MemManage_Handler(void)
   */
 void BusFault_Handler(void)
 {
-  /* add user code begin BusFault_IRQ 0 */
+    /* add user code begin BusFault_IRQ 0 */
 
-  /* add user code end BusFault_IRQ 0 */
-  /* go to infinite loop when bus fault exception occurs */
-  while (1)
-  {
-    /* add user code begin W1_BusFault_IRQ 0 */
-
-    /* add user code end W1_BusFault_IRQ 0 */
-  }
+    /* add user code end BusFault_IRQ 0 */
+    /* go to infinite loop when bus fault exception occurs */
+    while (1)
+    {
+        /* add user code begin W1_BusFault_IRQ 0 */
+        /* add user code end W1_BusFault_IRQ 0 */
+    }
 }
 
 /**
@@ -162,16 +157,15 @@ void BusFault_Handler(void)
   */
 void UsageFault_Handler(void)
 {
-  /* add user code begin UsageFault_IRQ 0 */
+    /* add user code begin UsageFault_IRQ 0 */
 
-  /* add user code end UsageFault_IRQ 0 */
-  /* go to infinite loop when usage fault exception occurs */
-  while (1)
-  {
-    /* add user code begin W1_UsageFault_IRQ 0 */
-
-    /* add user code end W1_UsageFault_IRQ 0 */
-  }
+    /* add user code end UsageFault_IRQ 0 */
+    /* go to infinite loop when usage fault exception occurs */
+    while (1)
+    {
+        /* add user code begin W1_UsageFault_IRQ 0 */
+        /* add user code end W1_UsageFault_IRQ 0 */
+    }
 }
 
 /**
@@ -181,12 +175,10 @@ void UsageFault_Handler(void)
   */
 void SVC_Handler(void)
 {
-  /* add user code begin SVCall_IRQ 0 */
-
-  /* add user code end SVCall_IRQ 0 */
-  /* add user code begin SVCall_IRQ 1 */
-
-  /* add user code end SVCall_IRQ 1 */
+    /* add user code begin SVCall_IRQ 0 */
+    /* add user code end SVCall_IRQ 0 */
+    /* add user code begin SVCall_IRQ 1 */
+    /* add user code end SVCall_IRQ 1 */
 }
 
 /**
@@ -196,12 +188,10 @@ void SVC_Handler(void)
   */
 void DebugMon_Handler(void)
 {
-  /* add user code begin DebugMonitor_IRQ 0 */
-
-  /* add user code end DebugMonitor_IRQ 0 */
-  /* add user code begin DebugMonitor_IRQ 1 */
-
-  /* add user code end DebugMonitor_IRQ 1 */
+    /* add user code begin DebugMonitor_IRQ 0 */
+    /* add user code end DebugMonitor_IRQ 0 */
+    /* add user code begin DebugMonitor_IRQ 1 */
+    /* add user code end DebugMonitor_IRQ 1 */
 }
 
 /**
@@ -211,12 +201,10 @@ void DebugMon_Handler(void)
   */
 void PendSV_Handler(void)
 {
-  /* add user code begin PendSV_IRQ 0 */
-
-  /* add user code end PendSV_IRQ 0 */
-  /* add user code begin PendSV_IRQ 1 */
-
-  /* add user code end PendSV_IRQ 1 */
+    /* add user code begin PendSV_IRQ 0 */
+    /* add user code end PendSV_IRQ 0 */
+    /* add user code begin PendSV_IRQ 1 */
+    /* add user code end PendSV_IRQ 1 */
 }
 
 /**
@@ -226,96 +214,107 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-  /* add user code begin SysTick_IRQ 0 */
-	static uint16_t get_fan_speed_time  = TIME_1S;
-	static uint8_t first_in = false;
-	static uint8_t fan_run_time = 1;
-  tmt.tick();
-  USART1_TimeOutCounter();
-  /* add user code end SysTick_IRQ 0 */
+    /* add user code begin SysTick_IRQ 0 */
+    static uint16_t get_fan_speed_time  = TIME_1S;
+    static uint8_t first_in = false;
+    static uint8_t fan_run_time = 1;
+    tmt.tick();
+    USART1_TimeOutCounter();
+    /* add user code end SysTick_IRQ 0 */
+    wk_timebase_handler();
 
-  wk_timebase_handler();
+    /* add user code begin SysTick_IRQ 1 */
 
-  /* add user code begin SysTick_IRQ 1 */
-	
+    if (sFWDS01_t.Work_handle_state == HANDLE_SLEEP)
+    {
+        fan_control(&sFWDS01_t);
+        sFWDS01_t.fan_run_flag = true;
+    }
+    else
+    {
+        fan_run_time--;
 
-	if(sFWDS01_t.Work_handle_state == HANDLE_SLEEP)
-	{
-		fan_control(&sFWDS01_t);
-		sFWDS01_t.fan_run_flag = true;
-	}
-	else
-	{
-		fan_run_time--;
-		if(fan_run_time == 0)
-		{
-			fan_run_time = 5;
-			fan_control(&sFWDS01_t);
-//			sFWDS01_t.fan_run_flag = false;
-		}
-	}
-	
-	/* waken time = 3S*/
-	if(sFWDS01_t.Work_handle_state == HANDLE_WAKEN)
-	{
-		if(sFWDS01_t.system_parameter.waken_time_count != 0)
-			sFWDS01_t.system_parameter.waken_time_count--;
-	}
-	
-	/* DP flick = 3S*/
-	if(sFWDS01_t.hot_state == PID_POWER)
-	{
-		dp_flash_tick++;
-		if(dp_flash_tick >= 500)
+        if (fan_run_time == 0)
+        {
+            fan_run_time = 5;
+            fan_control(&sFWDS01_t);
+            //			sFWDS01_t.fan_run_flag = false;
+        }
+    }
+
+    /* waken time = 3S*/
+    if (sFWDS01_t.Work_handle_state == HANDLE_WAKEN)
+    {
+        if (sFWDS01_t.system_parameter.waken_time_count != 0)
+        {
+            sFWDS01_t.system_parameter.waken_time_count--;
+        }
+    }
+
+#if 0
+
+    /* DP flick = 3S*/
+    if (sFWDS01_t.hot_state == PID_POWER)
+    {
+        dp_flash_tick++;
+
+        if (dp_flash_tick >= 500)
         {
             dp_flash_tick = 0;
-             // 500ms·­×ª
-			sFWDS01_t.general_parameter.dp_flash_flag = !sFWDS01_t.general_parameter.dp_flash_flag;
+            // 500ms·­×ª
+            sFWDS01_t.general_parameter.dp_flash_flag = !sFWDS01_t.general_parameter.dp_flash_flag;
         }
-	}
-	
+    }
+
+#endif
+
+    if (sFWDS01_t.system_parameter.actual_temp <= (sFWDS01_t.system_parameter.set_temp + LOCK_RANGE)
+            && sFWDS01_t.system_parameter.actual_temp >= (sFWDS01_t.system_parameter.set_temp - LOCK_RANGE))
+    {
+        dp_flash_tick++;
+
+        if (dp_flash_tick >= 500)
+        {
+            dp_flash_tick = 0;
+            // 500ms·­×ª
+            sFWDS01_t.general_parameter.dp_flash_flag = !sFWDS01_t.general_parameter.dp_flash_flag;
+        }
+    }
+    else if (sFWDS01_t.system_parameter.actual_temp > (sFWDS01_t.system_parameter.set_temp + LOCK_RANGE))
+    {
+        sFWDS01_t.general_parameter.dp_flash_flag = false;
+    }
+    else if (sFWDS01_t.system_parameter.actual_temp < (sFWDS01_t.system_parameter.set_temp - LOCK_RANGE))
+    {
+        sFWDS01_t.general_parameter.dp_flash_flag = false;
+    }
+
     /* get fan speed */
     get_fan_speed_time--;
 
     if (0 == get_fan_speed_time)
     {
-        sFWDS01_t.system_parameter.actual_air = tmr1_ch1_readvalue;
-        tmr1_ch1_readvalue = 0;
+        sFWDS01_t.system_parameter.actual_air = tmr15_ch1_readvalue;
+        tmr15_ch1_readvalue = 0;
         get_fan_speed_time = TIME_1S;
     }
-	
-	/* get mcu temp */
+
+    /* get mcu temp */
     if (first_in == false)
     {
         adc1_ordinary_value = get_adcval(ADC_CHANNEL_16);
-        sFWDS01_t.system_parameter.cpu_temp = (ADC_TEMP_BASE - (double)adc1_ordinary_value * ADC_VREF / 4096) / ADC_TEMP_SLOPE + 25;
-      
+        sFWDS01_t.system_parameter.cpu_temp = (ADC_TEMP_BASE - (double)adc1_ordinary_value * ADC_VREF / 4096) / ADC_TEMP_SLOPE +
+                                              25;
+
         if (sFWDS01_t.system_parameter.cpu_temp <= 50 && sFWDS01_t.system_parameter.cpu_temp > 0)
         {
-			sFWDS01_t.system_parameter.actual_temp = sFWDS01_t.system_parameter.cpu_temp;
+            sFWDS01_t.system_parameter.actual_temp = sFWDS01_t.system_parameter.cpu_temp;
             first_in = true;
         }
     }
-  /* add user code end SysTick_IRQ 1 */
-}
-
-/**
-  * @brief  this function handles TMR1 channel handler.
-  * @param  none
-  * @retval none
-  */
-void TMR1_CH_IRQHandler(void)
-{
-  /* add user code begin TMR1_CH_IRQ 0 */
-
-  /* add user code end TMR1_CH_IRQ 0 */
-  /* add user code begin TMR1_CH_IRQ 1 */
-	if (tmr_interrupt_flag_get(TMR1, TMR_C1_FLAG) != RESET)
-    {
-        tmr1_ch1_readvalue++;
-        tmr_flag_clear(TMR1, TMR_C1_FLAG);
-    }
-  /* add user code end TMR1_CH_IRQ 1 */
+	
+ 
+    /* add user code end SysTick_IRQ 1 */
 }
 
 /**
@@ -325,37 +324,56 @@ void TMR1_CH_IRQHandler(void)
   */
 void TMR3_GLOBAL_IRQHandler(void)
 {
-  /* add user code begin TMR3_GLOBAL_IRQ 0 */
-	static char pid_run_time = 2; 
-	if(tmr_flag_get(TMR3,TMR_OVF_FLAG) != RESET)
-	{ 
-		
-		if(sFWDS01_t.init_flag)
-		{
-			pwm_control(&sFWDS01_t);
-		} 
-		else
-			sFWDS01_t.system_parameter.pwm_out = 0;
-		
-		
-		if(sFWDS01_t.system_parameter.pwm_out <= 0)
-		{
-			sFWDS01_t.system_parameter.pwm_out = 0;
-		}
-		
-		
-		/* PWM output */
-		tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_1, sFWDS01_t.system_parameter.pwm_out);
-			
-		tmr_counter_enable(TMR3, TRUE);
+    /* add user code begin TMR3_GLOBAL_IRQ 0 */
+    static char pid_run_time = 2;
+
+    if (tmr_flag_get(TMR3, TMR_OVF_FLAG) != RESET)
+    {
+        if (sFWDS01_t.init_flag)
+        {
+            pwm_control(&sFWDS01_t);
+        }
+        else
+        {
+            sFWDS01_t.system_parameter.pwm_out = 0;
+        }
+
+        if (sFWDS01_t.system_parameter.pwm_out <= 0)
+        {
+            sFWDS01_t.system_parameter.pwm_out = 0;
+        }
+
+        /* PWM output */
+        tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_1, sFWDS01_t.system_parameter.pwm_out);
+        tmr_counter_enable(TMR3, TRUE);
         tmr_flag_clear(TMR3, TMR_OVF_FLAG);
-	}
-  /* add user code end TMR3_GLOBAL_IRQ 0 */
+    }
 
+    /* add user code end TMR3_GLOBAL_IRQ 0 */
+    /* add user code begin TMR3_GLOBAL_IRQ 1 */
+    /* add user code end TMR3_GLOBAL_IRQ 1 */
+}
 
-  /* add user code begin TMR3_GLOBAL_IRQ 1 */
+/**
+  * @brief  this function handles TMR15 handler.
+  * @param  none
+  * @retval none
+  */
+void TMR15_GLOBAL_IRQHandler(void)
+{
+    /* add user code begin TMR15_GLOBAL_IRQ 0 */
+    if (tmr_interrupt_flag_get(TMR15, TMR_C1_FLAG) != RESET)
+    {
+        /* add user code begin TMR2_TMR_C3_FLAG */
+        tmr15_ch1_readvalue++;
+        /* clear flag */
+        tmr_flag_clear(TMR15, TMR_C1_FLAG);
+        /* add user code end TMR2_TMR_C3_FLAG */
+    }
 
-  /* add user code end TMR3_GLOBAL_IRQ 1 */
+    /* add user code end TMR15_GLOBAL_IRQ 0 */
+    /* add user code begin TMR15_GLOBAL_IRQ 1 */
+    /* add user code end TMR15_GLOBAL_IRQ 1 */
 }
 
 

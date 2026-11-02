@@ -1,9 +1,9 @@
 Dependencies for Project 'AT32F421_IAP', Target 'AT32F421_IAP': (DO NOT MODIFY !)
-CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARM_Compiler_5.06u7
-F (..\src\at32f421_int.c)(0x68D517FA)(--c99 -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\libraries\drivers\inc -I ..\..\libraries\cmsis\cm4\core_support -I ..\..\libraries\cmsis\cm4\device_support -I ..\inc -I ..\system-IC:\Users\Administrator\AppData\Local\Arm\Packs\ArteryTek\AT32F421_DFP\2.1.8\Device\Include-IC:\Users\Administrator\AppData\Local\Arm\Packs\ArteryTek\AT32F421_DFP\2.1.8-D__UVISION_VERSION="538" -DAT32F421C8T7 -DAT32F421C8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F421_V1-o .\objects\at32f421_int.o --omf_browse .\objects\at32f421_int.crf --depend .\objects\at32f421_int.d)
-I (..\inc\at32f421_int.h)(0x68CCC130)
-I (..\..\libraries\cmsis\cm4\device_support\at32f421.h)(0x68B52E72)
-I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x68B52E72)
+CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
+F (..\src\at32f421_int.c)(0x68D517FA)(--c99 -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\libraries\drivers\inc -I ..\..\libraries\cmsis\cm4\core_support -I ..\..\libraries\cmsis\cm4\device_support -I ..\inc -I ..\system-I"D:\keil5\Keil MDK 5.34\Keil MDK v5.34\ArteryTek\AT32F421_DFP\2.2.0\Device\Include"-I"D:\keil5\Keil MDK 5.34\Keil MDK v5.34\ArteryTek\AT32F421_DFP\2.2.0"-D__UVISION_VERSION="534" -DAT32F421C8T7 -DAT32F421C8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F421_V1-o .\objects\at32f421_int.o --omf_browse .\objects\at32f421_int.crf --depend .\objects\at32f421_int.d)
+I (..\inc\at32f421_int.h)(0x68D517FA)
+I (..\..\libraries\cmsis\cm4\device_support\at32f421.h)(0x68D517FA)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x68D517FA)
 F (..\src\at32f421_wk_config.c)(0x68D517FA)()
 F (..\src\main.c)(0x68D517FA)()
 F (..\src\wk_usart.c)(0x68D517FA)()

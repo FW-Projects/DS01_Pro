@@ -74,8 +74,8 @@ flag_status flash_flag_get(uint32_t flash_flag)
 }
 
 /**
-  * @brief  clear the flash flag.
-  * @param  flash_flag: specifies the flash flags to clear.
+  * @brief  Clean the flash flag.
+  * @param  flash_flag: specifies the flash flags to Clean.
   *         this parameter can be any combination of the following values:
   *         - FLASH_ODF_FLAG
   *         - FLASH_PRGMERR_FLAG

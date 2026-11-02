@@ -361,12 +361,11 @@ ARM Macro Assembler    Page 6
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4 --apcs=interw
-ork --depend=.\objects\startup_at32f421.d -o.\objects\startup_at32f421.o -IC:\U
-sers\Administrator\AppData\Local\Arm\Packs\ArteryTek\AT32F421_DFP\2.1.8\Device\
-Include -IC:\Users\Administrator\AppData\Local\Arm\Packs\ArteryTek\AT32F421_DFP
-\2.1.8 --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 538"
- --predefine="AT32F421C8T7 SETA 1" --list=.\listings\startup_at32f421.lst start
-up_at32f421.s
+ork --depend=.\objects\startup_at32f421.d -o.\objects\startup_at32f421.o -I"D:\
+keil5\Keil MDK 5.34\Keil MDK v5.34\ArteryTek\AT32F421_DFP\2.2.0\Device\Include"
+ -I"D:\keil5\Keil MDK 5.34\Keil MDK v5.34\ArteryTek\AT32F421_DFP\2.2.0" --prede
+fine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 534" --predefine="
+AT32F421C8T7 SETA 1" --list=.\listings\startup_at32f421.lst startup_at32f421.s
 
 
 

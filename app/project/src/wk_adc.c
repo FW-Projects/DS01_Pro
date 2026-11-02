@@ -52,7 +52,7 @@ void wk_adc1_init(void)
   /* add user code end adc1_init 1 */
 
   /* gpio--------------------------------------------------------------------*/
-  /* configure the IN2 pin */
+  /* configure the IN1 pin */
   gpio_init_struct.gpio_mode = GPIO_MODE_ANALOG;
   gpio_init_struct.gpio_pins = AD_HOT_PIN;
   gpio_init(AD_HOT_GPIO_PORT, &gpio_init_struct);
@@ -70,7 +70,7 @@ void wk_adc1_init(void)
   adc_base_config(ADC1, &adc_base_struct);
 
   /* adc_ordinary_conversionmode-------------------------------------------- */
-  adc_ordinary_channel_set(ADC1, ADC_CHANNEL_2, 1, ADC_SAMPLETIME_239_5);
+  adc_ordinary_channel_set(ADC1, ADC_CHANNEL_1, 1, ADC_SAMPLETIME_239_5);
 
   adc_ordinary_conversion_trigger_set(ADC1, ADC12_ORDINARY_TRIG_SOFTWARE, TRUE);
 

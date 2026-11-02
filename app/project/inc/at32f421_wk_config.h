@@ -86,9 +86,7 @@ extern "C" {
 #define SPEAK_GPIO_PORT    GPIOC
 #define SLEEP_G_PIN    GPIO_PINS_15
 #define SLEEP_G_GPIO_PORT    GPIOC
-#define CHECK_FAN_PIN    GPIO_PINS_1
-#define CHECK_FAN_GPIO_PORT    GPIOA
-#define AD_HOT_PIN    GPIO_PINS_2
+#define AD_HOT_PIN    GPIO_PINS_1
 #define AD_HOT_GPIO_PORT    GPIOA
 #define KEY_CH1_PIN    GPIO_PINS_3
 #define KEY_CH1_GPIO_PORT    GPIOA

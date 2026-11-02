@@ -1,7 +1,7 @@
 .\objects\system_at32f421.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f421.c
 .\objects\system_at32f421.o: ..\..\libraries\cmsis\cm4\device_support\at32f421.h
 .\objects\system_at32f421.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\system_at32f421.o: D:\Work Program\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+.\objects\system_at32f421.o: D:\keil5\Keil MDK 5.34\Keil MDK v5.34\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\system_at32f421.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\system_at32f421.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\system_at32f421.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h
